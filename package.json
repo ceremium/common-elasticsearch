@@ -23,6 +23,7 @@
     "@babel/core": "^7.17.4",
     "@elastic/elasticsearch": "^8.0.0",
     "bluebird": "^3.7.2",
+    "elastic-builder": "^2.16.0",
     "winston": "^3.6.0"
   },
   "devDependencies": {
