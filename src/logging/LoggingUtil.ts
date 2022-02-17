@@ -1,11 +1,11 @@
 import Constants from '../Constants';
 
 class LoggingUtil {
-  isMetaMessage(message: any) {
+  isMetaMessage(message?: any): boolean {
     return !!(message && message.meta && Object.keys(message.meta).length > 0);
   }
 
-  getMessageSize(message: string): number {
+  getMessageSize(message?: string): number {
     if (message) {
       const size = Buffer.byteLength(JSON.stringify(message));
       return size;
@@ -22,14 +22,14 @@ class LoggingUtil {
     return false;
   }
 
-  isMessageSizeTooLarge(size: number): boolean {
+  isMessageSizeTooLarge(size?: number): boolean {
     if (size) {
       return size > Constants.LOG_MESSAGE_MAX_SIZE;
     }
     return false;
   }
 
-  safe(message: string): string {
+  safe(message?: string): string {
     if (message) {
       const size = this.getMessageSize(message);
       if (size) {

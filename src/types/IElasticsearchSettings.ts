@@ -1,8 +1,9 @@
 interface IElasticsearchSettings {
   host?: string;
   scheme?: string;
-  port?: number;
+  port?: string;
   node?: string;
+  index?: string;
   log?: string;
   auth?: IAuth;
 }

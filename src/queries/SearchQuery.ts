@@ -31,12 +31,14 @@ class SearchQuery {
   source!: boolean;
   size!: number;
   body: any;
+  type: string;
   /**
    * The constructor
    * @param {*} filters
    */
-  constructor(filters: any) {
+  constructor(filters: any, type: string) {
     this.filters = filters;
+    this.type = type;
     // indicates whether it's necessary to rebuild the query
     this.dirty = true;
 
@@ -168,7 +170,7 @@ class SearchQuery {
    * Set suggest
    * @param {*} suggest
    */
-  setSuggest(suggest: string | undefined) {
+  setSuggest(suggest: any | undefined) {
     this.suggest = suggest;
     this.dirty = true;
   }
@@ -177,7 +179,7 @@ class SearchQuery {
    * Set source
    * @param {*} source
    */
-  setSource(source: boolean) {
+  setSource(source: any) {
     this.source = source;
     this.dirty = true;
   }
@@ -219,11 +221,14 @@ class SearchQuery {
     this.body.from(from).size(this.size);
   }
 
-  isKeyBlacklisted(key: string) {
-    return FILTERS_BLACKLIST.includes(key);
+  isKeyBlacklisted(key?: string) {
+    if (key) {
+      return FILTERS_BLACKLIST.includes(key);
+    }
+    return false;
   }
 
-  getKeyType(key: string, value: string) {
+  getKeyType(key?: string, value?: any) {
     if (key === 'ids') {
       return 'ids';
     } else if (Array.isArray(value)) {
@@ -235,7 +240,7 @@ class SearchQuery {
     }
   }
 
-  getRangeKey(key: string) {
+  getRangeKey(key?: string) {
     if (key) {
       const ranges = key.split('.');
       ranges.pop();
@@ -245,7 +250,7 @@ class SearchQuery {
     return null;
   }
 
-  getRangeType(key: string) {
+  getRangeType(key?: string) {
     if (key) {
       const type = key.substring(key.lastIndexOf('.') + 1);
 

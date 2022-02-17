@@ -6,11 +6,11 @@ import { IElasticsearchSettings } from '../types/IElasticsearchSettings';
 
 import ElasticsearchSettings from './ElasticsearchSettings';
 class BaseService {
-  settings: IElasticsearchSettings;
+  settings?: IElasticsearchSettings;
   options: IElasticsearchOptions;
   client: any;
 
-  constructor(settings: IElasticsearchSettings, options = {}) {
+  constructor(settings?: IElasticsearchSettings, options?: any) {
     Logger.debug(
       `BaseService#constructor: settings: ${JSON.stringify(settings, null, 2)}`,
     );

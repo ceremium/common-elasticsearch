@@ -12,7 +12,7 @@ class IndexService extends BaseService {
   }
 
   // logic
-  async exists(index: string) {
+  async exists(index?: string) {
     Logger.debug(`IndexService#exists: index: ${index}`);
     if (index) {
       const client = this.getClient();
@@ -63,7 +63,7 @@ class IndexService extends BaseService {
     return null;
   }
 
-  async deleteIndex(index: string) {
+  async deleteIndex(index?: string) {
     Logger.debug(
       `IndexService#deleteIndex: index: ${JSON.stringify(index, null, 2)}`,
     );

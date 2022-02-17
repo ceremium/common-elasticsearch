@@ -13,7 +13,7 @@ class SearchQueryJSONTransformer extends ElasticsearchJSONTransformer {
    * @param {object} o the query to transform
    * @param {array} options.blacklist optional list of blacklisted attributes
    */
-  transform(o: any, options: any) {
+  transform(o: any, options: any = {}) {
     const res = super.transform(o, options);
 
     // use the default black list unless one was passed in

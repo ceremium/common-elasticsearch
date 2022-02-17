@@ -14,7 +14,7 @@ class SearchService extends BaseService {
   /**
    * Run the search in ES
    */
-  async search(index: string, queryOrQueries: any, options: ISearchOptions) {
+  async search(index: string, queryOrQueries: any, options?: ISearchOptions) {
     Logger.debug(`SearchService#search: enter`);
     if (index && queryOrQueries) {
       const client = this.getClient();
@@ -73,13 +73,6 @@ class SearchService extends BaseService {
     }
 
     return null;
-  }
-
-  async scroll(index: string, queryOrQueries: any, options: ISearchOptions) {
-    if (index && queryOrQueries) {
-      const client = this.getClient();
-      return await client.scroll(body);
-    }
   }
 }
 

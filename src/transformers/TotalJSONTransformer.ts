@@ -9,7 +9,7 @@ class TotalJSONTransformer extends ElasticsearchJSONTransformer {
    *
    * @param {object} o the object to transform
    */
-  transform(o: any, options: any) {
+  transform(o: any, options?: any) {
     const res = super.transform(o, options);
 
     // elasticsearch version 7+ returns total as an object

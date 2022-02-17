@@ -12,7 +12,7 @@ class SearchResultsJSONTransformer extends ElasticsearchJSONTransformer {
    *
    * @param {object} o the object to transform
    */
-  transform(o: any, options: any) {
+  transform(o: any, options: any = {}) {
     const res = super.transform(o, options);
 
     // pagination options
