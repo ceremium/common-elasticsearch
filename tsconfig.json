@@ -7,6 +7,6 @@
     "esModuleInterop": true,
     "inlineSourceMap": true
   },
-  "include": ["src/**/*"],
+  "include": ["decs.d.ts", "src/**/*"],
   "exclude": ["src/**/*test*"]
 }
