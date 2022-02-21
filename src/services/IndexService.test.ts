@@ -51,7 +51,7 @@ describe('IndexService', () => {
         const settings = args.elasticsearchSettings;
         const service = new IndexService(settings, {});
 
-        mockExists.mockReturnValue({ statusCode: 200, body: true });
+        mockExists.mockReturnValue(true);
         await service.exists('questions');
         expect(mockExists).toHaveBeenCalledTimes(1);
       });
@@ -59,7 +59,7 @@ describe('IndexService', () => {
         const settings = args.elasticsearchSettings;
         const service = new IndexService(settings, {});
 
-        mockExists.mockReturnValue({ statusCode: 200, body: true });
+        mockExists.mockReturnValue(true);
         await service.exists('questions');
         expect(mockExists).toHaveBeenCalledWith({ index: 'questions' });
       });
@@ -68,7 +68,7 @@ describe('IndexService', () => {
           const settings = args.elasticsearchSettings;
           const service = new IndexService(settings, {});
 
-          mockExists.mockReturnValue({ statusCode: 200, body: true });
+          mockExists.mockReturnValue(true);
           const indexExists = await service.exists('questions');
           expect(indexExists).toEqual(true);
         });
@@ -89,7 +89,7 @@ describe('IndexService', () => {
         const settings = args.elasticsearchSettings;
         const service = new IndexService(settings, {});
 
-        mockExists.mockReturnValue({ statusCode: 200, body: true });
+        mockExists.mockReturnValue(true);
         await service.exists();
         expect(mockExists).toHaveBeenCalledTimes(0);
       });
@@ -97,7 +97,7 @@ describe('IndexService', () => {
         const settings = args.elasticsearchSettings;
         const service = new IndexService(settings, {});
 
-        mockExists.mockReturnValue({ statusCode: 200, body: true });
+        mockExists.mockReturnValue(true);
         const indexExists = await service.exists();
         expect(indexExists).toEqual(false);
       });
@@ -135,7 +135,7 @@ describe('IndexService', () => {
           const settings = args.elasticsearchSettings;
           const service = new IndexService(settings, {});
 
-          mockExists.mockReturnValue({ statusCode: 200, body: true });
+          mockExists.mockReturnValue(true);
           await service.deleteIndex('questions');
           expect(mockDelete).toHaveBeenCalledTimes(1);
         });
@@ -143,7 +143,7 @@ describe('IndexService', () => {
           const settings = args.elasticsearchSettings;
           const service = new IndexService(settings, {});
 
-          mockExists.mockReturnValue({ statusCode: 200, body: true });
+          mockExists.mockReturnValue(true);
           await service.deleteIndex('questions');
           expect(mockDelete).toHaveBeenCalledWith({ index: 'questions' });
         });
@@ -179,7 +179,7 @@ describe('IndexService', () => {
             const settings = args.elasticsearchSettings;
             const service = new IndexService(settings, {});
 
-            mockExists.mockReturnValue({ statusCode: 200, body: true });
+            mockExists.mockReturnValue(true);
             await service.indexDocument('questions', {
               id: '1',
               one: 'two',
@@ -254,7 +254,7 @@ describe('IndexService', () => {
             const settings = args.elasticsearchSettings;
             const service = new IndexService(settings, {});
 
-            mockExists.mockReturnValue({ statusCode: 200, body: true });
+            mockExists.mockReturnValue(true);
             await service.indexDocuments(
               'questions',
               [
@@ -276,7 +276,7 @@ describe('IndexService', () => {
             const settings = args.elasticsearchSettings;
             const service = new IndexService(settings, {});
 
-            mockExists.mockReturnValue({ statusCode: 200, body: true });
+            mockExists.mockReturnValue(true);
             await service.indexDocuments(
               'questions',
               [
@@ -312,7 +312,7 @@ describe('IndexService', () => {
             const settings = args.elasticsearchSettings;
             const service = new IndexService(settings, {});
 
-            mockExists.mockReturnValue({ statusCode: 200, body: true });
+            mockExists.mockReturnValue(true);
             await service.indexDocuments(
               'questions',
               [
@@ -332,7 +332,7 @@ describe('IndexService', () => {
             const settings = args.elasticsearchSettings;
             const service = new IndexService(settings, {});
 
-            mockExists.mockReturnValue({ statusCode: 200, body: true });
+            mockExists.mockReturnValue(true);
             await service.indexDocuments(
               'questions',
               [
@@ -370,7 +370,7 @@ describe('IndexService', () => {
               const settings = args.elasticsearchSettings;
               const service = new IndexService(settings, {});
 
-              mockExists.mockReturnValue({ statusCode: 200, body: true });
+              mockExists.mockReturnValue(true);
               await service.indexDocuments(
                 'questions',
                 [
@@ -392,7 +392,7 @@ describe('IndexService', () => {
               const settings = args.elasticsearchSettings;
               const service = new IndexService(settings, {});
 
-              mockExists.mockReturnValue({ statusCode: 200, body: true });
+              mockExists.mockReturnValue(true);
               await service.indexDocuments(
                 'questions',
                 [
@@ -432,7 +432,7 @@ describe('IndexService', () => {
               const settings = args.elasticsearchSettings;
               const service = new IndexService(settings, {});
 
-              mockExists.mockReturnValue({ statusCode: 200, body: true });
+              mockExists.mockReturnValue(true);
               await service.indexDocuments(
                 'questions',
                 [
@@ -452,7 +452,7 @@ describe('IndexService', () => {
               const settings = args.elasticsearchSettings;
               const service = new IndexService(settings, {});
 
-              mockExists.mockReturnValue({ statusCode: 200, body: true });
+              mockExists.mockReturnValue(true);
               await service.indexDocuments(
                 'questions',
                 [
@@ -530,7 +530,7 @@ describe('IndexService', () => {
             const settings = args.elasticsearchSettings;
             const service = new IndexService(settings, {});
 
-            mockExists.mockReturnValue({ statusCode: 200, body: true });
+            mockExists.mockReturnValue(true);
             await service.deleteDocument('questions', {
               id: '1',
               one: 'two',
@@ -541,7 +541,7 @@ describe('IndexService', () => {
             const settings = args.elasticsearchSettings;
             const service = new IndexService(settings, {});
 
-            mockExists.mockReturnValue({ statusCode: 200, body: true });
+            mockExists.mockReturnValue(true);
             await service.deleteDocument('questions', {
               id: '1',
               one: 'two',
@@ -608,7 +608,7 @@ describe('IndexService', () => {
         });
         describe('when the index exists', () => {
           it('should call delete method for each document', async () => {
-            mockExists.mockReturnValue({ statusCode: 200, body: true });
+            mockExists.mockReturnValue(true);
             mockDeleteDocument.mockReturnValue((payload) => {
               return {
                 statusCode: 200,
@@ -646,7 +646,7 @@ describe('IndexService', () => {
             const settings = args.elasticsearchSettings;
             const service = new IndexService(settings, {});
 
-            mockExists.mockReturnValue({ statusCode: 200, body: true });
+            mockExists.mockReturnValue(true);
             await service.deleteDocuments(
               'questions',
               [
@@ -668,7 +668,7 @@ describe('IndexService', () => {
             const settings = args.elasticsearchSettings;
             const service = new IndexService(settings, {});
 
-            mockExists.mockReturnValue({ statusCode: 200, body: true });
+            mockExists.mockReturnValue(true);
             await service.deleteDocuments(
               'questions',
               [
