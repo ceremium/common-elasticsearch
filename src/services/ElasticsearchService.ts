@@ -34,9 +34,9 @@ class ElasticsearchService {
   isValidSettings(settings: IElasticsearchSettings) {
     Logger.debug(`ElasticsearchService#isValidSettings: enter`);
     Logger.debug(
-      `ElasticsearchService#isValidSettings: host: ${settings.host}`,
+      `ElasticsearchService#isValidSettings: node: ${settings.node}`,
     );
-    if (settings && settings.host) {
+    if (settings && settings.node) {
       Logger.debug(`ElasticsearchService#isValidSettings: Settings are valid`);
       return true;
     }

@@ -4,7 +4,6 @@ import Logger from '../logging/Logger';
 import { IElasticsearchOptions } from '../types/IElasticsearchOptions';
 import { IElasticsearchSettings } from '../types/IElasticsearchSettings';
 
-import ElasticsearchSettings from './ElasticsearchSettings';
 class BaseService {
   settings?: IElasticsearchSettings;
   options: IElasticsearchOptions;
@@ -28,12 +27,15 @@ class BaseService {
       return this.client;
     }
 
-    const settings = new ElasticsearchSettings(this.settings).getSettings();
     Logger.debug(
-      `BaseService#getClient: Settings: ${JSON.stringify(settings, null, 2)}`,
+      `BaseService#getClient: Settings: ${JSON.stringify(
+        this.settings,
+        null,
+        2,
+      )}`,
     );
-    if (settings) {
-      this.client = new Client(settings);
+    if (this.settings) {
+      this.client = new Client(this.settings);
       Logger.debug(
         `BaseService#getClient: Client initialized, returning client`,
       );
