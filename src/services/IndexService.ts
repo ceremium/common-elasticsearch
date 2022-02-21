@@ -12,7 +12,7 @@ class IndexService extends BaseService {
   }
 
   // logic
-  async exists(index?: string) {
+  async exists(index?: string): Promise<boolean> {
     Logger.debug(`IndexService#exists: index: ${index}`);
     if (index) {
       const client = this.getClient();
@@ -20,15 +20,7 @@ class IndexService extends BaseService {
       const response = await client.indices.exists({
         index,
       });
-      if (response) {
-        if (this.isSuccess(response)) {
-          const body = this.getBody(response);
-          Logger.debug(
-            `IndexService#exists: body: ${JSON.stringify(body, null, 2)}`,
-          );
-          return body;
-        }
-      }
+      return response;
     }
 
     return false;

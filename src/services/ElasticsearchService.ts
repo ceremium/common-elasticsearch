@@ -61,9 +61,9 @@ class ElasticsearchService {
   }
 
   // delegates - index
-  indexExists(index: string) {
+  async indexExists(index: string): Promise<boolean> {
     Logger.debug(`ElasticsearchService#indexExists: enter`);
-    return this.indexService.exists(index);
+    return await this.indexService.exists(index);
   }
 
   createIndex(index: string, mappings: any) {
