@@ -108,6 +108,21 @@ class ElasticsearchService {
     );
     return this.searchService.search(index, query, options);
   }
+
+  async moveAlias(alias: string, index: string) {
+    const aliasIndex = await this.indexService.getAlias(alias);
+    if (!aliasIndex) {
+      await this.indexService.createAlias(index, alias);
+    } else {
+      await this.indexService.deleteAlias(aliasIndex, alias);
+      await this.indexService.createAlias(index, alias);
+    }
+  }
+
+  async copyData(source: string, destination: string) {
+    Logger.debug(`ElasticsearchService#copyData: enter`);
+    await this.indexService.copyData(source, destination);
+  }
 }
 
 export default ElasticsearchService;

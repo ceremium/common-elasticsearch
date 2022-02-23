@@ -112,6 +112,7 @@ class IndexService extends BaseService {
           const client = this.getClient();
           const payload = {
             body: operations,
+            refresh: true,
           };
           Logger.debug(
             `IndexService#indexDocuments: Payload ${JSON.stringify(
@@ -122,9 +123,14 @@ class IndexService extends BaseService {
           );
 
           const response = await client.bulk(payload);
-          if (this.isSuccess(response)) {
-            return this.getBody(response);
-          }
+          Logger.debug(
+            `IndexService#indexDocuments: Response ${JSON.stringify(
+              response,
+              null,
+              2,
+            )}`,
+          );
+          return response;
         }
       } else {
         const responses = [];
@@ -280,6 +286,72 @@ class IndexService extends BaseService {
 
     Logger.debug(`IndexService#deleteDocument: exit (false)`);
     return false;
+  }
+
+  async createAlias(index: string, alias: string) {
+    Logger.debug(`IndexService#createAlias: enter`);
+    const exists = await this.exists(index);
+    Logger.debug(`IndexService#createAlias: index exists ${exists}`);
+    if (exists) {
+      const client = this.getClient();
+      const response = await client.indices.putAlias({
+        index,
+        name: alias,
+      });
+      Logger.debug(`IndexService#createAlias: response ${response}`);
+    }
+  }
+
+  async deleteAlias(index: string, alias: string) {
+    Logger.debug(`IndexService#deleteAlias: enter`);
+    const exists = await this.exists(index);
+    Logger.debug(`IndexService#deleteAlias: index exists ${exists}`);
+    if (exists) {
+      const client = this.getClient();
+      const response = await client.indices.deleteAlias({
+        index,
+        name: alias,
+      });
+      Logger.debug(`IndexService#deleteAlias: response ${response}`);
+    }
+  }
+
+  async getAlias(alias: string) {
+    Logger.debug(`IndexService#getAlias: enter`);
+    const client = this.getClient();
+    const response = await client.cat.aliases({
+      name: alias,
+    });
+    Logger.debug(`IndexService#getAlias: response ${response}`);
+    if (response && response.split(' ').length > 1) {
+      return response.split(' ')[1];
+    }
+
+    return null;
+  }
+
+  async copyData(sourceIndex: string, destIndex: string) {
+    Logger.debug(`IndexService#copyData: enter`);
+    const sourceExists = await this.exists(sourceIndex);
+    const destExists = await this.exists(destIndex);
+    Logger.debug(`IndexService#copyData: source index exists ${sourceExists}`);
+    Logger.debug(`IndexService#copyData: dest index exists ${destExists}`);
+    if (sourceExists && destExists) {
+      const client = this.getClient();
+      const response = await client.reindex({
+        body: {
+          source: {
+            index: sourceIndex,
+          },
+          dest: {
+            index: destIndex,
+          },
+        },
+      });
+      Logger.debug(
+        `IndexService#copyData: response ${JSON.stringify(response, null, 2)}`,
+      );
+    }
   }
 }
 

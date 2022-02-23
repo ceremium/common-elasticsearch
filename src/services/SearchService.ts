@@ -74,6 +74,12 @@ class SearchService extends BaseService {
 
     return null;
   }
+
+  async count(index: string) {
+    Logger.debug(`SearchService#count: enter`);
+    const client = this.getClient();
+    return await client.count({ index });
+  }
 }
 
 export default SearchService;
