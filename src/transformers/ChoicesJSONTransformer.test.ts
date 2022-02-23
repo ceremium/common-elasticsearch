@@ -126,6 +126,20 @@ describe('ChoicesJSONTransformer', () => {
           ]);
         });
       });
+      describe('when using from to ranges', () => {
+        it('should transform from to choices', async () => {
+          const transformer = new ChoicesJSONTransformer();
+          const result: any = await transformer.transform(
+            results.rangesWithFromTo,
+            {
+              titles,
+            },
+          );
+          expect(result).toHaveProperty('readingTimeMinutes');
+          expect(result.readingTimeMinutes).toHaveProperty('choices');
+          expect(result.readingTimeMinutes.choices.length).toEqual(3);
+        });
+      });
     });
     describe('when using nested aggregations', () => {
       it('should transform aggregations', async () => {

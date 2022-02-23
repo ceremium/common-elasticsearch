@@ -91,6 +91,118 @@ export default {
       },
     },
   },
+  rangesWithFromTo: {
+    took: 0.32113,
+    timed_out: false,
+    _shards: {
+      total: 5,
+      successful: 5,
+      skipped: 0,
+      failed: 0,
+    },
+    hits: {
+      total: 5,
+      max_score: 1,
+      hits: [
+        {
+          _index: 'incidents',
+          _type: 'incident',
+          _id: '5ae70e76b6d0051480f02edf',
+          _score: 1,
+          _source: {
+            status: 'Submitted',
+            type: {
+              type: 'Incident affecting Patient',
+              subType: '[Sub-type]',
+              category: 'Breach of 52 week pathway',
+            },
+          },
+        },
+      ],
+    },
+    aggregations: {
+      'involved.type': {
+        doc_count_error_upper_bound: 0,
+        sum_other_doc_count: 0,
+        buckets: [
+          {
+            key: 'Patient',
+            doc_count: 6,
+          },
+          {
+            key: 'Employee/Member of staff',
+            doc_count: 3,
+          },
+        ],
+      },
+      'involved.role': {
+        doc_count_error_upper_bound: 0,
+        sum_other_doc_count: 0,
+        buckets: [
+          {
+            key: 'Victim (Violence and Agression)',
+            doc_count: 9,
+          },
+        ],
+      },
+      'min_when.when': {
+        value: 1522764180036,
+        value_as_string: '2018-04-03T14:03:00.036Z',
+      },
+      'max_slipsTripsFallsAndCollisions.fallsLastYear': {
+        value: 8,
+      },
+      'min_slipsTripsFallsAndCollisions.fallsLastYear': {
+        value: 1,
+      },
+      'max_when.when': {
+        value: 1525349397322,
+        value_as_string: '2018-05-03T12:09:57.322Z',
+      },
+      'results.predictor.xdr': {
+        doc_count_error_upper_bound: 0,
+        sum_other_doc_count: 0,
+        buckets: [
+          {
+            key: 0,
+            key_as_string: 'false',
+            doc_count: 8,
+          },
+        ],
+      },
+      'results.predictor.mdr': {
+        doc_count_error_upper_bound: 0,
+        sum_other_doc_count: 0,
+        buckets: [
+          {
+            key: 1,
+            key_as_string: 'true',
+            doc_count: 8,
+          },
+        ],
+      },
+      readingTimeMinutes: {
+        buckets: [
+          {
+            key: '*-5.0',
+            to: 5.0,
+            doc_count: 0,
+          },
+          {
+            key: '5.0-10.0',
+            from: 5.0,
+            to: 10.0,
+            doc_count: 0,
+          },
+          {
+            key: '10.0-*',
+            from: 10.0,
+            doc_count: 0,
+          },
+        ],
+      },
+    },
+  },
   rangesNoBuckets: {
     took: 1,
     timed_out: false,

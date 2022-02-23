@@ -89,18 +89,34 @@ class ChoicesJSONTransformer extends ElasticsearchJSONTransformer {
     aggregation: any = {},
     titles: any = {},
   ) {
+    console.log(key);
     const keys = Object.keys(aggregation);
+    console.log(keys);
 
     const hasBuckets = keys.includes('buckets');
+    const hasAggregatableBuckets =
+      hasBuckets &&
+      aggregation.buckets.every((bucket: any) => {
+        return (
+          Object.keys(bucket).includes('key') &&
+          Object.keys(bucket).includes('doc_count')
+        );
+      });
+    console.log(`hasAggregatableBuckets: ${hasAggregatableBuckets}`);
     const hasDocCountErrorUpperBound = keys.includes(
       'doc_count_error_upper_bound',
     );
+    console.log(`hasDocCountErrorUpperBound: ${hasDocCountErrorUpperBound}`);
     const hasSumOtherDocCount = keys.includes('sum_other_doc_count');
+    console.log(`hasSumOtherDocCount: ${hasSumOtherDocCount}`);
 
     // will have categories and counts
     const buckets = aggregation.buckets;
 
-    if (hasDocCountErrorUpperBound && hasSumOtherDocCount) {
+    if (
+      hasAggregatableBuckets ||
+      (hasDocCountErrorUpperBound && hasSumOtherDocCount)
+    ) {
       const choice = [];
       if (hasBuckets && Array.isArray(buckets)) {
         for (const bucket of buckets) {
@@ -125,6 +141,7 @@ class ChoicesJSONTransformer extends ElasticsearchJSONTransformer {
       for (const childKey of keys) {
         if (childKey !== 'doc_count') {
           const compositeKey = `${key}.${childKey}`;
+          console.log(compositeKey);
           await this.transformTermAggregation(
             choices,
             compositeKey,
