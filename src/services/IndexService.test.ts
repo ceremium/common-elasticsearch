@@ -6,6 +6,10 @@ const mockBulk = jest.fn();
 const mockIndex = jest.fn();
 const mockDelete = jest.fn();
 const mockDeleteDocument = jest.fn();
+const mockPutAlias = jest.fn();
+const mockDeleteAlias = jest.fn();
+const mockGetAlias = jest.fn();
+const mockReindex = jest.fn();
 
 const args = {
   elasticsearchSettings: {
@@ -29,10 +33,16 @@ describe('IndexService', () => {
           exists: mockExists,
           create: mockCreate,
           delete: mockDelete,
+          putAlias: mockPutAlias,
+          deleteAlias: mockDeleteAlias,
+        },
+        cat: {
+          aliases: mockGetAlias,
         },
         index: mockIndex,
         bulk: mockBulk,
         delete: mockDeleteDocument,
+        reindex: mockReindex,
       };
     });
     mockExists.mockClear();
@@ -41,6 +51,10 @@ describe('IndexService', () => {
     mockIndex.mockClear();
     mockDelete.mockClear();
     mockDeleteDocument.mockClear();
+    mockPutAlias.mockClear();
+    mockDeleteAlias.mockClear();
+    mockGetAlias.mockClear();
+    mockReindex.mockClear();
   });
   afterEach(() => {
     jest.restoreAllMocks();
@@ -424,6 +438,7 @@ describe('IndexService', () => {
                     two: 'three',
                   },
                 ],
+                refresh: true,
               });
             });
           });
@@ -480,6 +495,7 @@ describe('IndexService', () => {
                     two: 'three',
                   },
                 ],
+                refresh: true,
               });
             });
           });
@@ -730,6 +746,148 @@ describe('IndexService', () => {
 
         const response = await service.deleteDocuments('questions', null);
         expect(response).toEqual(false);
+      });
+    });
+  });
+  describe('#createAlias', () => {
+    describe('when the index exists', () => {
+      it('should call elasticsearch put alias method', async () => {
+        const settings = args.elasticsearchSettings;
+        const service = new IndexService(settings, {});
+
+        mockExists.mockReturnValue(true);
+        await service.createAlias('questions', 'my_alias');
+        expect(mockExists).toHaveBeenCalledTimes(1);
+        expect(mockPutAlias).toHaveBeenCalledTimes(1);
+      });
+      it('should call elasticsearch put alias method with the index and alias', async () => {
+        const settings = args.elasticsearchSettings;
+        const service = new IndexService(settings, {});
+
+        mockExists.mockReturnValue(true);
+        await service.createAlias('questions', 'my_alias');
+        expect(mockExists).toHaveBeenCalledWith({ index: 'questions' });
+        expect(mockPutAlias).toHaveBeenCalledWith({
+          index: 'questions',
+          name: 'my_alias',
+        });
+      });
+    });
+    describe('when the index does not exist', () => {
+      it('should not call elasticsearch put alias method', async () => {
+        const settings = args.elasticsearchSettings;
+        const service = new IndexService(settings, {});
+
+        mockExists.mockReturnValue(false);
+        await service.createAlias('questions', 'my_alias');
+        expect(mockExists).toHaveBeenCalledTimes(1);
+        expect(mockPutAlias).toHaveBeenCalledTimes(0);
+      });
+    });
+  });
+  describe('#deleteAlias', () => {
+    describe('when the index exists', () => {
+      it('should call elasticsearch delete alias method', async () => {
+        const settings = args.elasticsearchSettings;
+        const service = new IndexService(settings, {});
+
+        mockExists.mockReturnValue(true);
+        await service.deleteAlias('questions', 'my_alias');
+        expect(mockExists).toHaveBeenCalledTimes(1);
+        expect(mockDeleteAlias).toHaveBeenCalledTimes(1);
+      });
+      it('should call elasticsearch delete alias method with the index and alias', async () => {
+        const settings = args.elasticsearchSettings;
+        const service = new IndexService(settings, {});
+
+        mockExists.mockReturnValue(true);
+        await service.deleteAlias('questions', 'my_alias');
+        expect(mockExists).toHaveBeenCalledWith({ index: 'questions' });
+        expect(mockDeleteAlias).toHaveBeenCalledWith({
+          index: 'questions',
+          name: 'my_alias',
+        });
+      });
+    });
+    describe('when the index does not exist', () => {
+      it('should not call elasticsearch delete alias method', async () => {
+        const settings = args.elasticsearchSettings;
+        const service = new IndexService(settings, {});
+
+        mockExists.mockReturnValue(false);
+        await service.deleteAlias('questions', 'my_alias');
+        expect(mockExists).toHaveBeenCalledTimes(1);
+        expect(mockDeleteAlias).toHaveBeenCalledTimes(0);
+      });
+    });
+  });
+  describe('#getAlias', () => {
+    describe('when the alias exists', () => {
+      it('should call elasticsearch get alias method', async () => {
+        const settings = args.elasticsearchSettings;
+        const service = new IndexService(settings, {});
+
+        await service.getAlias('my_alias');
+        expect(mockGetAlias).toHaveBeenCalledTimes(1);
+      });
+      it('should return the index', async () => {
+        const settings = args.elasticsearchSettings;
+        const service = new IndexService(settings, {});
+
+        mockGetAlias.mockReturnValue('my_alias questions - - -');
+        const response = await service.getAlias('my_alias');
+        expect(response).toEqual('questions');
+      });
+    });
+    describe('when the alias does not exist', () => {
+      it('should return null', async () => {
+        const settings = args.elasticsearchSettings;
+        const service = new IndexService(settings, {});
+
+        mockGetAlias.mockReturnValue('');
+        const response = await service.getAlias('my_alias');
+        expect(response).toBe(null);
+      });
+    });
+  });
+  describe('#copyData', () => {
+    describe('when the indexes exists', () => {
+      it('should call elasticsearch reindex method', async () => {
+        const settings = args.elasticsearchSettings;
+        const service = new IndexService(settings, {});
+
+        mockExists.mockReturnValue(true);
+        await service.copyData('index1', 'index2');
+        expect(mockExists).toHaveBeenCalledTimes(2);
+        expect(mockReindex).toHaveBeenCalledTimes(1);
+      });
+      it('should call elasticsearch reindex method with the index source and destination', async () => {
+        const settings = args.elasticsearchSettings;
+        const service = new IndexService(settings, {});
+
+        mockExists.mockReturnValue(true);
+        await service.copyData('index1', 'index2');
+        expect(mockReindex).toHaveBeenCalledWith({
+          body: {
+            source: {
+              index: 'index1',
+            },
+            dest: {
+              index: 'index2',
+            },
+          },
+        });
+      });
+    });
+    describe('when the index does not exist', () => {
+      it('should not call elasticsearch reindex method', async () => {
+        const settings = args.elasticsearchSettings;
+        const service = new IndexService(settings, {});
+
+        mockExists.mockReturnValue(false);
+        await service.copyData('index1', 'index2');
+        expect(mockExists).toHaveBeenCalledTimes(2);
+        expect(mockReindex).toHaveBeenCalledTimes(0);
       });
     });
   });
