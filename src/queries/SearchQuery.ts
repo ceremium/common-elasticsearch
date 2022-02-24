@@ -31,14 +31,14 @@ class SearchQuery {
   source!: boolean;
   size!: number;
   body: any;
-  type: string;
+  highlight: any;
   /**
    * The constructor
    * @param {*} filters
    */
-  constructor(filters: any, type: string) {
+  constructor(filters: any, options: any = {}) {
     this.filters = filters;
-    this.type = type;
+    this.highlight = options.highlight;
     // indicates whether it's necessary to rebuild the query
     this.dirty = true;
 
@@ -453,6 +453,17 @@ class SearchQuery {
 
     if (this.source && Array.isArray(this.source)) {
       this.body.source(this.source);
+    }
+
+    if (this.highlight && this.highlight.fields) {
+      const fields: Array<string> = Object.keys(this.highlight.fields);
+      const highlight = esb.highlight().fields(fields);
+      fields.forEach((field: string) => {
+        highlight
+          .preTags(this.highlight.fields[field].pre_tags, field)
+          .postTags(this.highlight.fields[field].post_tags, field);
+      });
+      this.body.highlight(highlight);
     }
 
     // query built no need to build it again
