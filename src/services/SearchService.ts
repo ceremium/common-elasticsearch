@@ -53,12 +53,7 @@ class SearchService extends BaseService {
             results.core,
           )}`,
         );
-        const response = results['core'];
-        if (response) {
-          if (this.isSuccess(response)) {
-            return this.getBody(response);
-          }
-        }
+        return results.core;
       } else {
         const bodies: any = {};
         Logger.debug(`SearchService#search: exit (multiple)`);
