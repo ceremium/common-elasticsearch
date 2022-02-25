@@ -397,6 +397,81 @@ describe('SearchQuery', () => {
           });
         });
       });
+      describe('when not using a search fields', () => {
+        it('should create a free text search against the search fields', () => {
+          const filters = { q: 'artificial intelligence' };
+          const query = new SearchQuery(filters);
+          const searchFields = [
+            {
+              name: 'body',
+            },
+            {
+              name: 'body.phrased',
+              boost: 5,
+            },
+            {
+              name: 'title',
+              boost: 2,
+            },
+            {
+              name: 'title.phrased',
+              boost: 10,
+            },
+          ];
+          query.setFilterFields(searchFields);
+          const json = query.toJSON();
+
+          expect(json).toHaveProperty('query');
+          expect(json.query).toHaveProperty('bool');
+          expect(json.query.bool).toHaveProperty('must');
+          expect(json.query.bool.must).toHaveProperty('bool');
+          expect(json.query.bool.must.bool).toHaveProperty('should');
+
+          expect(json.query.bool.must.bool.should.length).toEqual(4);
+
+          json.query.bool.must.bool.should.forEach((s) => {
+            const m = s.match;
+            const mp = s.match_phrase;
+            if (m) {
+              Object.keys(m).forEach((attribute) => {
+                switch (attribute) {
+                  case 'body':
+                    expect(m[attribute].query).toEqual(
+                      'artificial intelligence',
+                    );
+                    expect(m[attribute].boost).toBeUndefined();
+                    break;
+                  case 'title':
+                    expect(m[attribute].query).toEqual(
+                      'artificial intelligence',
+                    );
+                    expect(m[attribute].boost).toEqual(2);
+                    break;
+                }
+              });
+            }
+
+            if (mp) {
+              Object.keys(mp).forEach((attribute) => {
+                switch (attribute) {
+                  case 'body.phrased':
+                    expect(mp[attribute].query).toEqual(
+                      'artificial intelligence',
+                    );
+                    expect(mp[attribute].boost).toEqual(5);
+                    break;
+                  case 'title.phrased':
+                    expect(mp[attribute].query).toEqual(
+                      'artificial intelligence',
+                    );
+                    expect(mp[attribute].boost).toEqual(10);
+                    break;
+                }
+              });
+            }
+          });
+        });
+      });
     });
 
     describe('when using filters', () => {
