@@ -32,6 +32,7 @@ class SearchQuery {
   size!: number;
   body: any;
   highlight: any;
+  filterFields: any;
   /**
    * The constructor
    * @param {*} filters
@@ -214,6 +215,11 @@ class SearchQuery {
 
   setHighlight(highlight: any) {
     this.highlight = highlight;
+    this.dirty = true;
+  }
+
+  setFilterFields(filterFields: any) {
+    this.filterFields = filterFields;
     this.dirty = true;
   }
 
@@ -424,7 +430,23 @@ class SearchQuery {
     }
 
     // apply free text search
-    if (this.q) {
+    if (this.q && this.filterFields) {
+      const searchQuery = esb.boolQuery();
+      for (const filterField of this.filterFields) {
+        if (filterField.name && filterField.name.indexOf('.phrased') > -1) {
+          searchQuery.should(
+            esb
+              .matchPhraseQuery(filterField.name, this.q)
+              .boost(filterField.boost),
+          );
+        } else if (filterField.name) {
+          searchQuery.should(
+            esb.matchQuery(filterField.name, this.q).boost(filterField.boost),
+          );
+        }
+      }
+      query.must(searchQuery);
+    } else if (this.q) {
       query.must(
         esb
           .boolQuery()
