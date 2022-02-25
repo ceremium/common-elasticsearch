@@ -4,25 +4,20 @@ describe('SearchQuery', () => {
   describe('#constructor', () => {
     it('should initialise filters', () => {
       const filters = { firstname: 'Mark' };
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       expect(Object.keys(query.filters).includes('firstname')).toEqual(true);
-    });
-    it('should initialise type', () => {
-      const filters = { firstname: 'Mark' };
-      const query = new SearchQuery(filters, 'person');
-      expect(query.type).toEqual('person');
     });
   });
   describe('#setPage', () => {
     it('should set page', () => {
       const filters = {};
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       query.setPage(2);
       expect(query.page).toEqual(2);
     });
     it('should set dirty to true', () => {
       const filters = {};
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       query.setPage(2);
       expect(query.dirty).toEqual(true);
     });
@@ -30,13 +25,13 @@ describe('SearchQuery', () => {
   describe('#setSort', () => {
     it('should set sort', () => {
       const filters = {};
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       query.setSort('created');
       expect(query.sort).toEqual('created');
     });
     it('should set dirty to true', () => {
       const filters = {};
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       query.setSort('created');
       expect(query.dirty).toEqual(true);
     });
@@ -44,13 +39,13 @@ describe('SearchQuery', () => {
   describe('#setOrder', () => {
     it('should set order', () => {
       const filters = {};
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       query.setOrder('desc');
       expect(query.order).toEqual('desc');
     });
     it('should set dirty to true', () => {
       const filters = {};
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       query.setOrder('desc');
       expect(query.dirty).toEqual(true);
     });
@@ -58,13 +53,13 @@ describe('SearchQuery', () => {
   describe('#setQ', () => {
     it('should set q', () => {
       const filters = {};
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       query.setQ('Amox');
       expect(query.q).toEqual('Amox');
     });
     it('should set dirty to true', () => {
       const filters = {};
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       query.setQ('Amox');
       expect(query.dirty).toEqual(true);
     });
@@ -72,7 +67,7 @@ describe('SearchQuery', () => {
   describe('#setSuggest', () => {
     it('should set suggest', () => {
       const filters = {};
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       query.setSuggest({ name: 'dmd', field: 'nm_suggest', prefix: 'Hum' });
       expect(query.suggest).toEqual({
         name: 'dmd',
@@ -82,7 +77,7 @@ describe('SearchQuery', () => {
     });
     it('should set dirty to true', () => {
       const filters = {};
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       query.setSuggest({ name: 'dmd', field: 'nm_suggest', prefix: 'Hum' });
       expect(query.dirty).toEqual(true);
     });
@@ -90,13 +85,13 @@ describe('SearchQuery', () => {
   describe('#setSize', () => {
     it('should set size', () => {
       const filters = {};
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       query.setSize(20);
       expect(query.size).toEqual(20);
     });
     it('should set dirty to true', () => {
       const filters = {};
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       query.setSize(2);
       expect(query.dirty).toEqual(true);
     });
@@ -104,13 +99,13 @@ describe('SearchQuery', () => {
   describe('#setFilters', () => {
     it('should set size', () => {
       const filters = {};
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       query.setFilters({ month: 'January' });
       expect(query.filters).toEqual({ month: 'January' });
     });
     it('should set dirty to true', () => {
       const filters = {};
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       query.setFilters({ month: 'January' });
       expect(query.dirty).toEqual(true);
     });
@@ -118,13 +113,13 @@ describe('SearchQuery', () => {
   describe('#setSource', () => {
     it('should set source', () => {
       const filters = {};
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       query.setSource(['firstname', 'lastname']);
       expect(query.source).toEqual(['firstname', 'lastname']);
     });
     it('should set dirty to true', () => {
       const filters = {};
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       query.setSource(['firstname', 'lastname']);
       expect(query.dirty).toEqual(true);
     });
@@ -133,7 +128,7 @@ describe('SearchQuery', () => {
     describe('when key is empty', () => {
       it('should return false', () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const blacklisted = query.isKeyBlacklisted();
         expect(blacklisted).toEqual(false);
       });
@@ -141,7 +136,7 @@ describe('SearchQuery', () => {
     describe('when key is null', () => {
       it('should return false', () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const blacklisted = query.isKeyBlacklisted(null);
         expect(blacklisted).toEqual(false);
       });
@@ -149,7 +144,7 @@ describe('SearchQuery', () => {
     describe('when key is not in the blacklist', () => {
       it('should return false', () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const blacklisted = query.isKeyBlacklisted('created');
         expect(blacklisted).toEqual(false);
       });
@@ -157,7 +152,7 @@ describe('SearchQuery', () => {
     describe('when key is in the blacklist', () => {
       it('should return false', () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const blacklisted = query.isKeyBlacklisted('per');
         expect(blacklisted).toEqual(true);
       });
@@ -167,7 +162,7 @@ describe('SearchQuery', () => {
     describe('when key is empty', () => {
       it('should return simple', () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const type = query.getKeyType();
         expect(type).toEqual('simple');
       });
@@ -175,7 +170,7 @@ describe('SearchQuery', () => {
     describe('when key is null', () => {
       it('should return simple', () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const type = query.getKeyType(null, null);
         expect(type).toEqual('simple');
       });
@@ -183,7 +178,7 @@ describe('SearchQuery', () => {
     describe('when key is an id', () => {
       it("should return 'ids'", () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const type = query.getKeyType('ids', ['1', '2', '3']);
         expect(type).toEqual('ids');
       });
@@ -191,7 +186,7 @@ describe('SearchQuery', () => {
     describe('when value is an array', () => {
       it("should return 'array'", () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const type = query.getKeyType('months', ['January', 'February']);
         expect(type).toEqual('array');
       });
@@ -199,7 +194,7 @@ describe('SearchQuery', () => {
     describe('when key contains min', () => {
       it("should return 'range'", () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const type = query.getKeyType('created.min', '20200303');
         expect(type).toEqual('range');
       });
@@ -207,7 +202,7 @@ describe('SearchQuery', () => {
     describe('when key contains max', () => {
       it("should return 'range'", () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const type = query.getKeyType('created.max', '20200303');
         expect(type).toEqual('range');
       });
@@ -215,7 +210,7 @@ describe('SearchQuery', () => {
     describe('when key is normal', () => {
       it("should return 'simple'", () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const type = query.getKeyType('height', 188);
         expect(type).toEqual('simple');
       });
@@ -225,7 +220,7 @@ describe('SearchQuery', () => {
     describe('when key is empty', () => {
       it('should return null', () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const key = query.getRangeKey();
         expect(key).toEqual(null);
       });
@@ -233,7 +228,7 @@ describe('SearchQuery', () => {
     describe('when key is null', () => {
       it('should return null', () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const key = query.getRangeKey(null);
         expect(key).toEqual(null);
       });
@@ -241,7 +236,7 @@ describe('SearchQuery', () => {
     describe('when key contains a single .', () => {
       it('should return null', () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const key = query.getRangeKey('created.min');
         expect(key).toEqual('created');
       });
@@ -249,7 +244,7 @@ describe('SearchQuery', () => {
     describe('when key contains multiple .', () => {
       it('should return null', () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const key = query.getRangeKey('created.date.min');
         expect(key).toEqual('created.date');
       });
@@ -259,7 +254,7 @@ describe('SearchQuery', () => {
     describe('when key is empty', () => {
       it('should return null', () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const key = query.getRangeType();
         expect(key).toEqual(null);
       });
@@ -267,7 +262,7 @@ describe('SearchQuery', () => {
     describe('when key is null', () => {
       it('should return null', () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const key = query.getRangeType(null);
         expect(key).toEqual(null);
       });
@@ -275,7 +270,7 @@ describe('SearchQuery', () => {
     describe('when key is not a range query', () => {
       it('should return null', () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const key = query.getRangeType('created');
         expect(key).toEqual(null);
       });
@@ -283,7 +278,7 @@ describe('SearchQuery', () => {
     describe('when key is not min or max', () => {
       it('should return null', () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const key = query.getRangeType('created.other');
         expect(key).toEqual(null);
       });
@@ -291,7 +286,7 @@ describe('SearchQuery', () => {
     describe('when key is min', () => {
       it('should return null', () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const key = query.getRangeType('created.min');
         expect(key).toEqual('min');
       });
@@ -299,7 +294,7 @@ describe('SearchQuery', () => {
     describe('when key is max', () => {
       it('should return null', () => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const key = query.getRangeType('created.max');
         expect(key).toEqual('max');
       });
@@ -310,7 +305,7 @@ describe('SearchQuery', () => {
       let json = null;
       beforeEach((done) => {
         const filters = {};
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         json = query.toJSON();
         done();
       });
@@ -328,7 +323,7 @@ describe('SearchQuery', () => {
       describe('when overriding page', () => {
         it('should set from', () => {
           const filters = { per: 20, page: 2 };
-          const query = new SearchQuery(filters, 'person');
+          const query = new SearchQuery(filters);
           const json = query.toJSON();
 
           expect(json.from).toEqual(20);
@@ -337,7 +332,7 @@ describe('SearchQuery', () => {
       describe('when overriding results per page', () => {
         it('should set size', () => {
           const filters = { per: 20, page: 2 };
-          const query = new SearchQuery(filters, 'person');
+          const query = new SearchQuery(filters);
           const json = query.toJSON();
 
           expect(json.size).toEqual(20);
@@ -348,7 +343,7 @@ describe('SearchQuery', () => {
     describe('when using ranges', () => {
       it('should set apply the min and max ranges', () => {
         const filters = { created: { min: '2021-01-01', max: '2021-12-31' } };
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const json = query.toJSON();
 
         const {
@@ -376,7 +371,7 @@ describe('SearchQuery', () => {
       describe('when not using a wildcard', () => {
         it('should create a free text search against copied and copied_ngrams', () => {
           const filters = { q: 'Female' };
-          const query = new SearchQuery(filters, 'person');
+          const query = new SearchQuery(filters);
           const json = query.toJSON();
 
           expect(json).toHaveProperty('query');
@@ -408,7 +403,7 @@ describe('SearchQuery', () => {
       describe('when using a single filter', () => {
         it('should apply the filter', () => {
           const filters = { 'metadata.patient.smoker': 'Yes' };
-          const query = new SearchQuery(filters, 'person');
+          const query = new SearchQuery(filters);
           const json = query.toJSON();
 
           expect(json).toHaveProperty('query', {
@@ -429,7 +424,7 @@ describe('SearchQuery', () => {
             'metadata.patient.homeless': 'Yes',
           };
 
-          const query = new SearchQuery(filters, 'person');
+          const query = new SearchQuery(filters);
           const json = query.toJSON();
 
           expect(json).toHaveProperty('from', 0);
@@ -458,7 +453,7 @@ describe('SearchQuery', () => {
             'when.min': '2018-06-04',
             'when.max': '2020-06-04',
           };
-          const query = new SearchQuery(filters, 'person');
+          const query = new SearchQuery(filters);
           const json = query.toJSON();
           expect(typeof json).toEqual('object');
 
@@ -473,7 +468,7 @@ describe('SearchQuery', () => {
           const ranges: any = {};
           beforeEach((done) => {
             const body = { 'when.min': '2018-06-04', 'when.max': '2020-06-04' };
-            const query = new SearchQuery(body, 'person');
+            const query = new SearchQuery(body);
             const json = query.toJSON();
             const filters = json.query.bool.filter;
 
@@ -501,7 +496,7 @@ describe('SearchQuery', () => {
           const ranges: any = {};
           beforeEach((done) => {
             const body = { 'age.min': 18, 'age.max': 24 };
-            const query = new SearchQuery(body, 'person');
+            const query = new SearchQuery(body);
             const json = query.toJSON();
             const filters = json.query.bool.filter;
 
@@ -529,7 +524,7 @@ describe('SearchQuery', () => {
           const ranges: any = {};
           beforeEach((done) => {
             const body = { 'when.min': '2018-06-04' };
-            const query = new SearchQuery(body, 'person');
+            const query = new SearchQuery(body);
             const json = query.toJSON();
             const filter = json.query.bool.filter;
 
@@ -558,7 +553,7 @@ describe('SearchQuery', () => {
           const ranges: any = {};
           beforeEach((done) => {
             const body = { 'age.max': 24 };
-            const query = new SearchQuery(body, 'person');
+            const query = new SearchQuery(body);
             const json = query.toJSON();
             const filter = json.query.bool.filter;
 
@@ -591,7 +586,7 @@ describe('SearchQuery', () => {
         let json = null;
         beforeEach((done) => {
           const filters = { q: 'Female', 'metadata.patient.smoker': 'Yes' };
-          const query = new SearchQuery(filters, 'person');
+          const query = new SearchQuery(filters);
           json = query.toJSON();
 
           done();
@@ -642,7 +637,7 @@ describe('SearchQuery', () => {
           const filters = {
             'metadata.sample.isolateId': ['123', '456'],
           };
-          const query = new SearchQuery(filters, 'person');
+          const query = new SearchQuery(filters);
           json = query.toJSON();
           done();
         });
@@ -674,7 +669,7 @@ describe('SearchQuery', () => {
             'metadata.patient.smoker': 'Yes',
             'metadata.patient.homeless': 'No',
           };
-          const query = new SearchQuery(filters, 'person');
+          const query = new SearchQuery(filters);
           json = query.toJSON();
           done();
         });
@@ -739,7 +734,7 @@ describe('SearchQuery', () => {
             sort: 'metadata.patient.smoker',
             order: 'asc',
           };
-          const query = new SearchQuery(filters, 'person');
+          const query = new SearchQuery(filters);
           json = query.toJSON();
           done();
         });
@@ -818,7 +813,7 @@ describe('SearchQuery', () => {
             'metadata.patient.homeless': 'No',
             ids: ['123', '456'],
           };
-          const query = new SearchQuery(filters, 'person');
+          const query = new SearchQuery(filters);
           json = query.toJSON();
 
           done();
@@ -885,7 +880,7 @@ describe('SearchQuery', () => {
             'metadata.patient.homeless': 'No',
             'metadata.sample.isolateId': ['123', '456'],
           };
-          const query = new SearchQuery(filters, 'person');
+          const query = new SearchQuery(filters);
           json = query.toJSON();
           done();
         });
@@ -953,7 +948,7 @@ describe('SearchQuery', () => {
           sort: 'metadata.patient.smoker',
           order: 'asc',
         };
-        const query = new SearchQuery(filters, 'person');
+        const query = new SearchQuery(filters);
         const json = query.toJSON();
 
         expect(json).toHaveProperty('from', 0);
@@ -975,7 +970,7 @@ describe('SearchQuery', () => {
               order: 'asc',
               whitelist: ['metadata.patient.smoker'],
             };
-            const query = new SearchQuery(filters, 'person');
+            const query = new SearchQuery(filters);
             const json = query.toJSON();
 
             expect(json).toHaveProperty('from', 0);
@@ -997,7 +992,7 @@ describe('SearchQuery', () => {
               order: 'asc',
               whitelist: ['metadata.patient.homeless'],
             };
-            const query = new SearchQuery(filters, 'person');
+            const query = new SearchQuery(filters);
             const json = query.toJSON();
 
             expect(json).toHaveProperty('from', 0);
@@ -1024,7 +1019,7 @@ describe('SearchQuery', () => {
           const filters = {
             suggest: { name: 'people', field: 'gender', prefix: 'Fem' },
           };
-          const query = new SearchQuery(filters, 'person');
+          const query = new SearchQuery(filters);
           const json = query.toJSON();
 
           expect(json).toHaveProperty('suggest');
@@ -1051,7 +1046,7 @@ describe('SearchQuery', () => {
               },
             },
           };
-          const query = new SearchQuery(filters, 'person');
+          const query = new SearchQuery(filters);
           const json = query.toJSON();
 
           expect(json).toHaveProperty('suggest');
@@ -1068,7 +1063,7 @@ describe('SearchQuery', () => {
           const filters = {
             source: ['firstname', 'lastname'],
           };
-          const query = new SearchQuery(filters, 'person');
+          const query = new SearchQuery(filters);
           const json = query.toJSON();
 
           expect(json['_source'].length).toEqual(2);
@@ -1079,7 +1074,7 @@ describe('SearchQuery', () => {
 
     it('should support ids query', () => {
       const filters = { ids: ['123', '456'] };
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       const json = query.toJSON();
 
       expect(json).toHaveProperty('from', 0);
@@ -1097,7 +1092,7 @@ describe('SearchQuery', () => {
 
     it('should set type to the documents type', () => {
       const filters = { ids: ['234', '455'] };
-      const query = new SearchQuery(filters, 'person');
+      const query = new SearchQuery(filters);
       const json = query.toJSON();
 
       expect(json).toHaveProperty('from', 0);
@@ -1109,6 +1104,33 @@ describe('SearchQuery', () => {
               _id: ['234', '455'],
             },
           },
+        },
+      });
+    });
+
+    it('should support highlight', () => {
+      const highlight = {
+        fields: {
+          'title.phrased': {
+            pre_tags: ['<strong>'],
+            post_tags: ['</strong>'],
+          },
+          'body.phrased': {
+            pre_tags: ['<strong>'],
+            post_tags: ['</strong>'],
+          },
+        },
+      };
+      const query = new SearchQuery({});
+      query.setHighlight(highlight);
+      const json = query.toJSON();
+
+      expect(json).toHaveProperty('from', 0);
+      expect(json).toHaveProperty('size', 10);
+      expect(json).toHaveProperty('highlight', {
+        fields: {
+          'title.phrased': { pre_tags: ['<strong>'], post_tags: ['</strong>'] },
+          'body.phrased': { pre_tags: ['<strong>'], post_tags: ['</strong>'] },
         },
       });
     });
