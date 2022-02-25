@@ -1121,7 +1121,8 @@ describe('SearchQuery', () => {
           },
         },
       };
-      const query = new SearchQuery({}, { highlight });
+      const query = new SearchQuery({});
+      query.setHighlight(highlight);
       const json = query.toJSON();
 
       expect(json).toHaveProperty('from', 0);

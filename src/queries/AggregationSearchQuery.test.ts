@@ -30,7 +30,8 @@ describe('AggregationSearchQuery', () => {
           },
         },
       };
-      const query = new AggregationSearchQuery({}, { aggregations });
+      const query = new AggregationSearchQuery({});
+      query.setAggregations(aggregations);
       const json = query.toJSON();
 
       expect(json).toHaveProperty('from', 0);

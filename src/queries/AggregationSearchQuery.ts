@@ -3,10 +3,13 @@ import SearchQuery from './SearchQuery';
 
 class AggregationSearchQuery extends SearchQuery {
   aggregations: any;
-  constructor(filters: any, options: any = {}) {
-    super(filters, options);
-    this.aggregations = options.aggregations;
-    this.buildSearchQuery();
+  constructor(filters: any) {
+    super(filters);
+  }
+
+  setAggregations(aggregations: any) {
+    this.aggregations = aggregations;
+    this.dirty = true;
   }
 
   buildSearchQuery(filters = this.filters) {

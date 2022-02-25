@@ -36,9 +36,8 @@ class SearchQuery {
    * The constructor
    * @param {*} filters
    */
-  constructor(filters: any, options: any = {}) {
+  constructor(filters: any) {
     this.filters = filters;
-    this.highlight = options.highlight;
     // indicates whether it's necessary to rebuild the query
     this.dirty = true;
 
@@ -211,6 +210,11 @@ class SearchQuery {
    */
   getFilters() {
     return this.filters;
+  }
+
+  setHighlight(highlight: any) {
+    this.highlight = highlight;
+    this.dirty = true;
   }
 
   /**
