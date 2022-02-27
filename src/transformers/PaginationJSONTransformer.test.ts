@@ -1,5 +1,5 @@
 import PaginationJSONTransformer from './PaginationJSONTransformer';
-import results from './__fixtures__/Results';
+import Results from './__fixtures__/Results';
 
 describe('PaginationJSONTransformer', () => {
   describe('#transform', () => {
@@ -9,7 +9,7 @@ describe('PaginationJSONTransformer', () => {
         per: 10,
         page: 1,
       };
-      const result = transformer.transform(results.ranges, options);
+      const result = transformer.transform(Results.ranges, options);
 
       expect(result).toHaveProperty('per', 10);
       expect(result).toHaveProperty('page', 1);
@@ -25,7 +25,7 @@ describe('PaginationJSONTransformer', () => {
         per: 2,
         page: 1,
       };
-      const result = transformer.transform(results.ranges, options);
+      const result = transformer.transform(Results.ranges, options);
 
       expect(result).toHaveProperty('per', 2);
       expect(result).toHaveProperty('page', 1);
@@ -41,7 +41,7 @@ describe('PaginationJSONTransformer', () => {
         per: 2,
         page: 2,
       };
-      const result = transformer.transform(results.ranges, options);
+      const result = transformer.transform(Results.ranges, options);
 
       expect(result).toHaveProperty('per', 2);
       expect(result).toHaveProperty('page', 2);

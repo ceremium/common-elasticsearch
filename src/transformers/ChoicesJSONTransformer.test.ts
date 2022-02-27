@@ -1,5 +1,5 @@
 import ChoicesJSONTransformer from './ChoicesJSONTransformer';
-import results from './__fixtures__/Results';
+import Results from './__fixtures__/Results';
 
 const titles = {
   'involved.type': {
@@ -26,7 +26,7 @@ describe('ChoicesJSONTransformer', () => {
       describe('when there is no jsonschema', () => {
         it('should transform aggregations into choices', async () => {
           const transformer = new ChoicesJSONTransformer();
-          const result = await transformer.transform(results.ranges);
+          const result = await transformer.transform(Results.ranges);
 
           const type = result['involved.type'];
           const role = result['involved.role'];
@@ -59,7 +59,7 @@ describe('ChoicesJSONTransformer', () => {
         });
         it('should transform choices with no buckets', async () => {
           const transformer = new ChoicesJSONTransformer();
-          const result = await transformer.transform(results.rangesNoBuckets);
+          const result = await transformer.transform(Results.rangesNoBuckets);
 
           const role = result['involved.role'];
 
@@ -67,7 +67,7 @@ describe('ChoicesJSONTransformer', () => {
         });
         it('should transform boolean choices', async () => {
           const transformer = new ChoicesJSONTransformer();
-          const result = await transformer.transform(results.ranges);
+          const result = await transformer.transform(Results.ranges);
 
           const mdr = result['results.predictor.mdr'];
           const xdr = result['results.predictor.xdr'];
@@ -79,7 +79,7 @@ describe('ChoicesJSONTransformer', () => {
       describe('when titles are provided', () => {
         it('should transform aggregations into choices with title', async () => {
           const transformer = new ChoicesJSONTransformer();
-          const result = await transformer.transform(results.ranges, {
+          const result = await transformer.transform(Results.ranges, {
             titles,
           });
 
@@ -103,7 +103,7 @@ describe('ChoicesJSONTransformer', () => {
         });
         it('should add title to choices', async () => {
           const transformer = new ChoicesJSONTransformer();
-          const result = await transformer.transform(results.rangesNoBuckets, {
+          const result = await transformer.transform(Results.rangesNoBuckets, {
             titles,
           });
 
@@ -130,7 +130,7 @@ describe('ChoicesJSONTransformer', () => {
         it('should transform from to choices', async () => {
           const transformer = new ChoicesJSONTransformer();
           const result: any = await transformer.transform(
-            results.rangesWithFromTo,
+            Results.rangesWithFromTo,
             {
               titles,
             },
@@ -144,7 +144,7 @@ describe('ChoicesJSONTransformer', () => {
     describe('when using nested aggregations', () => {
       it('should transform aggregations', async () => {
         const transformer = new ChoicesJSONTransformer();
-        const result = await transformer.transform(results.nestedAggregations, {
+        const result = await transformer.transform(Results.nestedAggregations, {
           titles,
         });
 

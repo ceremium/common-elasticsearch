@@ -1,12 +1,12 @@
 import TotalJSONTransformer from './TotalJSONTransformer';
-import results from './__fixtures__/Results';
+import Results from './__fixtures__/Results';
 
 describe('TotalJSONTransformer', () => {
   describe('#transform', () => {
     describe('when ES version is less than 7', () => {
       it('should transform results into hits', (done) => {
         const transformer = new TotalJSONTransformer();
-        const result = transformer.transform(results.ranges);
+        const result = transformer.transform(Results.ranges);
 
         expect(result.total).toEqual(5);
         expect(result.totalRelation).toEqual('');
@@ -17,7 +17,7 @@ describe('TotalJSONTransformer', () => {
     describe('when ES version is 7', () => {
       it('should transform results into hits', (done) => {
         const transformer = new TotalJSONTransformer();
-        const result = transformer.transform(results.rangesV7);
+        const result = transformer.transform(Results.rangesV7);
 
         expect(result.total).toEqual(5);
         expect(result.totalRelation).toEqual('eq');
@@ -26,7 +26,7 @@ describe('TotalJSONTransformer', () => {
       });
       it('should transform results with value 0', (done) => {
         const transformer = new TotalJSONTransformer();
-        const result = transformer.transform(results.results0);
+        const result = transformer.transform(Results.results0);
 
         expect(result.total).toEqual(0);
         expect(result.totalRelation).toEqual('eq');

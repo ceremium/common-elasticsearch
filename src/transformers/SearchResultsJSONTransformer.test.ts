@@ -1,11 +1,11 @@
 import SearchResultsJSONTransformer from './SearchResultsJSONTransformer';
-import results from './__fixtures__/Results';
+import Results from './__fixtures__/Results';
 
 describe('SearchResultsJSONTransformer', () => {
   describe('#transform', () => {
     it('should transform a query', (done) => {
       const transformer = new SearchResultsJSONTransformer();
-      const result = transformer.transform(results.ranges);
+      const result = transformer.transform(Results.ranges);
 
       expect(result).toHaveProperty('total', 5);
       expect(result).toHaveProperty('pagination');
