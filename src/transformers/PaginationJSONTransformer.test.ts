@@ -1,5 +1,5 @@
 import PaginationJSONTransformer from './PaginationJSONTransformer';
-import results from './__fixtures__/results';
+import results from './__fixtures__/Results';
 
 describe('PaginationJSONTransformer', () => {
   describe('#transform', () => {

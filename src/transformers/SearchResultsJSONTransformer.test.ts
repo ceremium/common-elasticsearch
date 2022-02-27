@@ -1,5 +1,5 @@
 import SearchResultsJSONTransformer from './SearchResultsJSONTransformer';
-import results from './__fixtures__/results';
+import results from './__fixtures__/Results';
 
 describe('SearchResultsJSONTransformer', () => {
   describe('#transform', () => {

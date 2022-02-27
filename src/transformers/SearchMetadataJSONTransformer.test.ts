@@ -1,5 +1,5 @@
 import SearchMetadataJSONTransformer from './SearchMetadataJSONTransformer';
-import results from './__fixtures__/results';
+import results from './__fixtures__/Results';
 
 describe('SearchMetadataJSONTransformer', () => {
   describe('#transform', () => {

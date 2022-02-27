@@ -1,5 +1,5 @@
 import ChoicesJSONTransformer from './ChoicesJSONTransformer';
-import results from './__fixtures__/results';
+import results from './__fixtures__/Results';
 
 const titles = {
   'involved.type': {

@@ -1,5 +1,5 @@
 import HitsJSONTransformer from './HitsJSONTransformer';
-import results from './__fixtures__/results';
+import results from './__fixtures__/Results';
 
 describe('HitsJSONTransformer', () => {
   describe('#transform', () => {

@@ -1,5 +1,5 @@
 import TotalJSONTransformer from './TotalJSONTransformer';
-import results from './__fixtures__/results';
+import results from './__fixtures__/Results';
 
 describe('TotalJSONTransformer', () => {
   describe('#transform', () => {

@@ -1,5 +1,5 @@
 import AggregationsJSONTransformer from './AggregationsJSONTransformer';
-import results from './__fixtures__/results';
+import results from './__fixtures__/Results';
 
 describe('AggregationsJSONTransformer', () => {
   describe('#transform', () => {
