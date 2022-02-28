@@ -22,7 +22,7 @@ class SearchService extends BaseService {
       const keys = Object.keys(queryOrQueries);
       Logger.debug(`SearchService#search: keys: ${keys}`);
       const single = keys.some((key) =>
-        ['size', 'query', 'aggs', 'sort'].includes(key),
+        ['size', 'query', 'aggs', 'sort', 'suggest'].includes(key),
       );
       Logger.debug(`SearchService#search: single: ${single}`);
       const queries = single ? { core: queryOrQueries } : queryOrQueries;

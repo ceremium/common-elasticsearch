@@ -1,11 +1,11 @@
 import AggregationsJSONTransformer from './AggregationsJSONTransformer';
-import results from './__fixtures__/results';
+import Results from './__fixtures__/Results';
 
 describe('AggregationsJSONTransformer', () => {
   describe('#transform', () => {
     it('should transform results into aggregations', (done) => {
       const transformer = new AggregationsJSONTransformer();
-      const result = transformer.transform(results.ranges);
+      const result = transformer.transform(Results.ranges);
 
       expect(result['involved.type']).not.toBeUndefined();
       expect(result['involved.role']).not.toBeUndefined();
