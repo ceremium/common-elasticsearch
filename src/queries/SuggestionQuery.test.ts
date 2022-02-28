@@ -34,6 +34,7 @@ describe('SuggestionQuery', () => {
             title: {
               completion: {
                 field: 'title',
+                skip_duplicates: true,
               },
               prefix: 'arp',
             },
@@ -52,6 +53,7 @@ describe('SuggestionQuery', () => {
                   fuzzy: {
                     fuzziness: 4,
                   },
+                  skip_duplicates: true,
                 },
                 prefix: 'arp',
               },
@@ -75,6 +77,7 @@ describe('SuggestionQuery', () => {
                   fuzzy: {
                     fuzziness: 4,
                   },
+                  skip_duplicates: true,
                 },
                 prefix: 'arp',
               },
@@ -94,6 +97,7 @@ describe('SuggestionQuery', () => {
                 completion: {
                   field: 'title',
                   size: 20,
+                  skip_duplicates: true,
                 },
                 prefix: 'arp',
               },
