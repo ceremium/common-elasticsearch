@@ -1,7 +1,7 @@
 import HighlightJSONTransformer from './HighlightJSONTransformer';
 import Highlights from './__fixtures__/Highlights';
 
-enum HIGHTLIGHT_FIELDS_MAPPING {
+enum HIGHLIGHT_FIELDS_MAPPING {
   'title.phrased' = 'title',
   'body.phrased' = 'body',
   'description.phrased' = 'description',
@@ -14,7 +14,7 @@ describe('HighlightJSONTransformer', () => {
         const transformer = new HighlightJSONTransformer();
         const result = transformer.transform(
           Highlights.valid,
-          HIGHTLIGHT_FIELDS_MAPPING,
+          HIGHLIGHT_FIELDS_MAPPING,
         );
 
         expect(result.title).toEqual(
@@ -29,7 +29,7 @@ describe('HighlightJSONTransformer', () => {
         const transformer = new HighlightJSONTransformer();
         const result = transformer.transform(
           Highlights.empty,
-          HIGHTLIGHT_FIELDS_MAPPING,
+          HIGHLIGHT_FIELDS_MAPPING,
         );
 
         expect(result.title).toBeUndefined();
