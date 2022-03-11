@@ -17,6 +17,13 @@ class SearchService extends BaseService {
   async search(index: string, queryOrQueries: any, options?: ISearchOptions) {
     Logger.debug(`SearchService#search: enter`);
     if (index && queryOrQueries) {
+      Logger.debug(
+        `ElasticsearchService#search: queryOrQueries: ${JSON.stringify(
+          queryOrQueries,
+          null,
+          2,
+        )}`,
+      );
       const client = this.getClient();
 
       const keys = Object.keys(queryOrQueries);

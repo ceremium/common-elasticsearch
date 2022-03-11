@@ -117,10 +117,17 @@ class ChoicesJSONTransformer extends ElasticsearchJSONTransformer {
           const category = this.getBucketCategory(bucket);
           const count = bucket.doc_count;
 
-          choice.push({
+          const entry: any = {
             key: category,
             count,
-          });
+          };
+          if (bucket.from) {
+            entry.min = bucket.from;
+          }
+          if (bucket.to) {
+            entry.max = bucket.to;
+          }
+          choice.push(entry);
         }
       }
 
