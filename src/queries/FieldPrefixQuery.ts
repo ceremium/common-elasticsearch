@@ -63,7 +63,7 @@ class FieldPrefixQuery extends SuggestionQuery {
 
     const json = prefix.toJSON();
     Logger.debug(
-      `SuggestionQuery#toJSON: json: ${JSON.stringify(json, null, 2)}`,
+      `FieldPrefixQuery#toJSON: json: ${JSON.stringify(json, null, 2)}`,
     );
     return json;
   }

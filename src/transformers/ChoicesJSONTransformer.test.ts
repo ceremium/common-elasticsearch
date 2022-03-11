@@ -139,6 +139,28 @@ describe('ChoicesJSONTransformer', () => {
           expect(result.readingTimeMinutes).toHaveProperty('choices');
           expect(result.readingTimeMinutes.choices.length).toEqual(3);
         });
+        it('should add min and max to choices', async () => {
+          const transformer = new ChoicesJSONTransformer();
+          const result: any = await transformer.transform(
+            Results.rangesWithFromTo,
+            {
+              titles,
+            },
+          );
+          expect(result).toHaveProperty('readingTimeMinutes');
+          expect(result.readingTimeMinutes).toHaveProperty('choices');
+          const choices = result.readingTimeMinutes.choices;
+          const byKey = {};
+
+          for (const entry of choices) {
+            byKey[entry.key] = entry;
+          }
+
+          expect(byKey['*-5.0'].max).toEqual(5.0);
+          expect(byKey['5.0-10.0'].min).toEqual(5.0);
+          expect(byKey['5.0-10.0'].max).toEqual(10.0);
+          expect(byKey['10.0-*'].min).toEqual(10.0);
+        });
       });
     });
     describe('when using nested aggregations', () => {
