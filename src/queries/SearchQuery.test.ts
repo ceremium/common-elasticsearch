@@ -722,17 +722,18 @@ describe('SearchQuery', () => {
         it('should set size', () => {
           expect(json).toHaveProperty('size', 10);
         });
-        it('should support or query', () => {
+        it('should support and query', () => {
           expect(json).toHaveProperty('query');
           expect(json.query).toHaveProperty('bool');
           expect(json.query.bool).toHaveProperty('filter');
-          expect(json.query.bool.filter).toHaveProperty('terms');
+          expect(Array.isArray(json.query.bool.filter)).toBe(true);
 
-          const terms =
-            json.query.bool.filter.terms['metadata.sample.isolateId'];
-          expect(terms.length).toEqual(2);
-          terms.forEach((entry) => {
-            expect(['123', '456'].includes(entry)).toEqual(true);
+          const matches = json.query.bool.filter;
+          expect(matches.length).toEqual(2);
+          matches.forEach((entry) => {
+            expect(
+              ['123', '456'].includes(entry.match['metadata.sample.isolateId']),
+            ).toEqual(true);
           });
         });
       });
@@ -971,12 +972,12 @@ describe('SearchQuery', () => {
           expect(json.query.bool).toHaveProperty('filter');
 
           const filter = json.query.bool.filter;
-          expect(filter.length).toEqual(3);
+          expect(filter.length).toEqual(4);
 
           const matches = filter.filter((entry) =>
             Object.keys(entry).includes('match'),
           );
-          expect(matches.length).toEqual(2);
+          expect(matches.length).toEqual(4);
 
           for (const entry of matches) {
             expect(entry).toHaveProperty('match');
@@ -986,6 +987,8 @@ describe('SearchQuery', () => {
                 expect(match[key]).toEqual('Yes');
               } else if (key === 'metadata.patient.homeless') {
                 expect(match[key]).toEqual('No');
+              } else if (key === 'metadata.sample.isolateId') {
+                expect(['123', '456'].includes(match[key])).toEqual(true);
               } else {
                 done.fail(`${key} is not an expected filter`);
               }
@@ -999,19 +1002,20 @@ describe('SearchQuery', () => {
           expect(json.query.bool).toHaveProperty('filter');
 
           const filter = json.query.bool.filter;
-          expect(filter.length).toEqual(3);
+          expect(filter.length).toEqual(4);
 
-          const terms = filter.filter((entry) =>
-            Object.keys(entry).includes('terms'),
+          const matches = filter.filter((entry) =>
+            Object.keys(entry).includes('match'),
           );
-          expect(terms.length).toEqual(1);
 
-          const term = terms[0];
-          expect(term).toHaveProperty('terms');
-          const isolateIds = term['terms']['metadata.sample.isolateId'];
+          expect(matches.length).toEqual(4);
 
-          for (const entry of isolateIds) {
-            expect(['123', '456'].includes(entry)).toEqual(true);
+          for (const entry of matches) {
+            expect(entry).toHaveProperty('match');
+            const match = entry.match['metadata.sample.isolateId'];
+            if (match) {
+              expect(['123', '456'].includes(match)).toEqual(true);
+            }
           }
         });
       });
