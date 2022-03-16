@@ -1,6 +1,6 @@
 {
   "name": "common-elasticsearch",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "A common Elasticsearch library and configuration",
   "main": "lib/index.js",
   "repository": "https://github.com/ceremium/common-elasticsearch.git",

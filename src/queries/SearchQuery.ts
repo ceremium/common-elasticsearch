@@ -394,7 +394,9 @@ class SearchQuery {
               query.filter(esb.termsQuery('_id', value));
               break;
             case 'array':
-              query.filter(esb.termsQuery(key, value));
+              for (const val of value) {
+                query.filter(esb.matchQuery(key, val));
+              }
               break;
             case 'range':
               // processed separately
