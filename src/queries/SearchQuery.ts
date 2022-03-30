@@ -293,15 +293,9 @@ class SearchQuery {
    * @param {*} values
    */
   buildArrayFilter(query: any, key: string, values: Array<string>) {
-    const bool = esb.boolQuery();
-
-    if (values && Array.isArray(values)) {
-      for (const value of values) {
-        bool.should(esb.matchQuery(key, value));
-      }
+    for (const val of values) {
+      query.filter(esb.matchQuery(key, val));
     }
-
-    query.filter(bool);
   }
 
   extractRangeFilters(filters: any) {
@@ -394,9 +388,7 @@ class SearchQuery {
               query.filter(esb.termsQuery('_id', value));
               break;
             case 'array':
-              for (const val of value) {
-                query.filter(esb.matchQuery(key, val));
-              }
+              this.buildArrayFilter(query, key, value);
               break;
             case 'range':
               // processed separately
