@@ -1,4 +1,3 @@
-import { doesNotMatch } from 'assert';
 import JoinedResultsSearchQuery from './JoinedResultsSearchQuery';
 
 describe('JoinedResultsSearchQuery', () => {
