@@ -557,7 +557,7 @@ describe('SearchQuery', () => {
             done();
           });
           it('should add an lte filter', (done) => {
-            expect(ranges.lte).toEqual('2020-06-04');
+            expect(ranges.lt).toEqual('2020-06-04');
 
             done();
           });
@@ -585,7 +585,7 @@ describe('SearchQuery', () => {
             done();
           });
           it('should add an lt filter', (done) => {
-            expect(ranges.lte).toEqual(24);
+            expect(ranges.lt).toEqual(24);
 
             done();
           });
@@ -615,7 +615,7 @@ describe('SearchQuery', () => {
             done();
           });
           it('should not add an lt filter', (done) => {
-            expect(ranges.lte).toBeUndefined();
+            expect(ranges.lt).toBeUndefined();
             done();
           });
           it('should add a gte filter', (done) => {
@@ -644,7 +644,7 @@ describe('SearchQuery', () => {
             done();
           });
           it('should add an lte filter', (done) => {
-            expect(ranges.lte).toEqual(24);
+            expect(ranges.lt).toEqual(24);
             done();
           });
           it('should not add a gte filter', (done) => {
