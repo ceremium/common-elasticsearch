@@ -1,5 +1,7 @@
 import esb from 'elastic-builder';
 
+import Logger from '../logging/Logger';
+
 // constants
 const FILTERS_BLACKLIST = [
   'per',
@@ -305,20 +307,35 @@ class SearchQuery {
       const rangeFilters: any = {};
 
       for (const key of keys) {
+        Logger.debug(`SearchQuery#extractRangeFilters: key: ${key}`);
         const value = filters[key];
 
         const keyType = this.getKeyType(key, value);
+        Logger.debug(`SearchQuery#extractRangeFilters: keyType: ${keyType}`);
         if (keyType === 'range') {
           const rangeKey = this.getRangeKey(key);
+          Logger.debug(
+            `SearchQuery#extractRangeFilters: rangeKey: ${rangeKey}`,
+          );
           const rangeType = this.getRangeType(key);
+          Logger.debug(
+            `SearchQuery#extractRangeFilters: rangeType: ${rangeType}`,
+          );
 
           if (rangeKey) {
             rangeFilters[rangeKey] = rangeFilters[rangeKey] || {};
             if (rangeType === 'min') {
               rangeFilters[rangeKey].gte = value;
             } else {
-              rangeFilters[rangeKey].lte = value;
+              rangeFilters[rangeKey].lt = value;
             }
+            Logger.debug(
+              `SearchQuery#extractRangeFilters: rangeFilters: ${JSON.stringify(
+                rangeFilters,
+                null,
+                2,
+              )}`,
+            );
           }
         }
       }
@@ -375,6 +392,13 @@ class SearchQuery {
       const safeFilters = this.coerceRanges(filters);
       // remove any ranges to process separately
       const rangeFilters = this.extractRangeFilters(safeFilters);
+      Logger.debug(
+        `SearchQuery#buildSearchQuery: rangeFilters: ${JSON.stringify(
+          rangeFilters,
+          null,
+          2,
+        )}`,
+      );
 
       // handle non-range attributes
       const keys = Object.keys(safeFilters);
@@ -409,9 +433,9 @@ class SearchQuery {
               esb.rangeQuery(rangeKey).gte(rangeFilters[rangeKey].gte),
             );
           }
-          if (rangeFilters[rangeKey].lte) {
+          if (rangeFilters[rangeKey].lt) {
             query.filter(
-              esb.rangeQuery(rangeKey).lte(rangeFilters[rangeKey].lte),
+              esb.rangeQuery(rangeKey).lt(rangeFilters[rangeKey].lt),
             );
           }
         }
