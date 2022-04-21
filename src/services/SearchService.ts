@@ -77,6 +77,29 @@ class SearchService extends BaseService {
     return null;
   }
 
+  /**
+   * Run the msearch
+   */
+  async msearch(index: string, queries: Array<any>, options?: ISearchOptions) {
+    Logger.debug(`SearchService#msearch: enter`);
+    if (index && queries) {
+      const client = this.getClient();
+
+      const body = {
+        body: queries,
+        index: index,
+        ...options,
+      };
+
+      const response = await client.msearch(body);
+      if (this.isSuccess(response)) {
+        return this.getBody(response);
+      }
+    }
+
+    return null;
+  }
+
   async count(index: string) {
     Logger.debug(`SearchService#count: enter`);
     const client = this.getClient();
