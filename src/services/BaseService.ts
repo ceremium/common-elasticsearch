@@ -48,6 +48,7 @@ class BaseService {
 
   isSuccess(result: any) {
     const statusCode = this.getStatusCode(result);
+    Logger.debug(`BaseService#isSuccess: statusCode: ${statusCode}`);
     if (statusCode && statusCode === 200) {
       return true;
     }

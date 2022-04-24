@@ -109,6 +109,18 @@ class ElasticsearchService {
     return this.searchService.search(index, query, options);
   }
 
+  msearch(index: string, queries: Array<any>, options: ISearchOptions) {
+    Logger.debug(`ElasticsearchService#msearch: enter`);
+    Logger.debug(`ElasticsearchService#msearch: index: ${index}`);
+    Logger.debug(
+      `ElasticsearchService#msearch: query: ${queries ? queries.length : 0}`,
+    );
+    Logger.debug(
+      `ElasticsearchService#msearch: options: ${JSON.stringify(options)}`,
+    );
+    return this.searchService.msearch(index, queries, options);
+  }
+
   async moveAlias(alias: string, index: string) {
     const aliasIndex = await this.indexService.getAlias(alias);
     if (!aliasIndex) {

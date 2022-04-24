@@ -1,6 +1,7 @@
 import SearchService from './SearchService';
 
 let mockSearch = null;
+let mockMSearch = null;
 
 const args = {
   elasticsearchSettings: {
@@ -108,6 +109,72 @@ describe('SearchService', () => {
 
           const response = await service.search('spotlight-dev', query);
           expect(response).toBeNull();
+        });
+      });
+    });
+  });
+  describe('search', () => {
+    beforeEach(() => {
+      mockMSearch = jest.fn();
+      jest
+        .spyOn(SearchService.prototype, 'getClient')
+        .mockImplementation(() => {
+          return {
+            msearch: mockMSearch,
+          };
+        });
+    });
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
+    describe('when valid', () => {
+      describe('when sending a searches', () => {
+        beforeEach(async () => {
+          const settings = args.elasticsearchSettings;
+          const service = new SearchService(settings, {});
+          const queries = [
+            { index: 'spotlight-dev' },
+            { query: { match_all: {} } },
+            { index: 'spotlight-dev' },
+            {
+              query: {
+                bool: {
+                  must: {
+                    match: {
+                      message: 'this is a test',
+                    },
+                  },
+                },
+              },
+            },
+          ];
+
+          await service.msearch('spotlight-dev', queries);
+        });
+        it('should call search', () => {
+          expect(mockMSearch).toBeCalledTimes(1);
+        });
+        it('should call with a valid search body', () => {
+          const bulk = [
+            { index: 'spotlight-dev' },
+            { query: { match_all: {} } },
+            { index: 'spotlight-dev' },
+            {
+              query: {
+                bool: {
+                  must: {
+                    match: {
+                      message: 'this is a test',
+                    },
+                  },
+                },
+              },
+            },
+          ];
+          expect(mockMSearch).toBeCalledWith({
+            index: 'spotlight-dev',
+            body: bulk,
+          });
         });
       });
     });
