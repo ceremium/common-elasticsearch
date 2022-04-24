@@ -92,8 +92,8 @@ class SearchService extends BaseService {
       };
 
       const response = await client.msearch(body);
-      if (this.isSuccess(response)) {
-        return this.getBody(response);
+      if (response && response.responses) {
+        return response.responses;
       }
     }
 
